@@ -70,7 +70,10 @@ async def lifespan(app: FastAPI):
     if added:
         logger.info("Seeded %s sample documents into FAISS", added)
     _LIBRARY = library
-    yield
+    try:
+        yield
+    finally:
+        _LIBRARY = None
 
 
 app = FastAPI(title="Folio", version=__version__, lifespan=lifespan)
