@@ -16,6 +16,8 @@ from app.textutil import tokens
 
 class LocalHashEmbeddings(Embeddings):
     def __init__(self, dim: int = 384) -> None:
+        if isinstance(dim, bool) or not isinstance(dim, int) or dim <= 0:
+            raise ValueError("Embedding dimension must be a positive integer")
         self.dim = dim
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
