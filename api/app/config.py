@@ -25,7 +25,7 @@ def openai_model() -> str:
 
 
 def ollama_base_url() -> str:
-    return os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434").strip().rstrip("/")
+    return (os.environ.get("OLLAMA_BASE_URL", "").strip() or "http://127.0.0.1:11434").rstrip("/")
 
 
 def ollama_model() -> str:
