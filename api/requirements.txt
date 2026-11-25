@@ -13,4 +13,4 @@ langchain-openai==1.8.5
 langchain-ollama==1.2.0
 langchain-text-splitters==1.2.0
 paddlepaddle==2.6.2
-paddleocr==2.9.1
+paddleocr==3.7.0
