@@ -7,6 +7,10 @@ from app.config import default_provider, ollama_base_url, openai_api_key
 
 
 class ConfigTests(unittest.TestCase):
+    def test_ollama_trailing_slash(self):
+        with patch.dict(os.environ, {"OLLAMA_BASE_URL": " http://localhost:11434/ "}):
+            self.assertEqual(ollama_base_url(), "http://localhost:11434")
+
     def test_provider_case_and_spaces(self):
         with patch.dict(os.environ, {"LLM_PROVIDER": " OPENAI "}):
             self.assertEqual(default_provider(), "openai")
