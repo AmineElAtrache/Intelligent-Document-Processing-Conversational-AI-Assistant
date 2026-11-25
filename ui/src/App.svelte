@@ -49,6 +49,14 @@
     const file = event.currentTarget.files?.[0];
     event.currentTarget.value = "";
     if (!file) return;
+    if (file.size > 20 * 1024 * 1024) {
+      error = "File is larger than 20 MB.";
+      return;
+    }
+    if (!file.size) {
+      error = "That file is empty.";
+      return;
+    }
     uploading = true;
     error = "";
     try {
