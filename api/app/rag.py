@@ -193,7 +193,7 @@ def _llm(provider: str):
             )
         from langchain_openai import ChatOpenAI
 
-        return ChatOpenAI(model=openai_model(), api_key=key, temperature=0)
+        return ChatOpenAI(model=openai_model(), api_key=key, temperature=0, timeout=45, max_retries=1)
     if provider == "ollama":
         from langchain_ollama import ChatOllama
 
