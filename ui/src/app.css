@@ -28,6 +28,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 button { cursor: pointer; }
 
+:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+
 .desk {
   max-width: 1180px;
   margin: 0 auto;
