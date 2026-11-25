@@ -5,6 +5,9 @@ from app.textutil import raw_tokens, tokens
 
 
 class TokenTests(unittest.TestCase):
+    def test_only_question_glue(self):
+        self.assertEqual(tokens("Can you please tell me?"), [])
+
     def test_amount_tokens(self):
         self.assertEqual(tokens("4,280.50 MAD"), ["280", "50", "mad"])
 
