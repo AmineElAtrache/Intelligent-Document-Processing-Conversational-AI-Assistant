@@ -204,6 +204,7 @@ select { padding: 8px 10px; }
 .bubble.user { margin-left: auto; background: var(--green); color: white; }
 
 .bubble.assistant { background: #f7f1e6; }
+.bubble p { white-space: pre-wrap; }
 
 .citations { display: grid; gap: 6px; margin-top: 8px; }
 
