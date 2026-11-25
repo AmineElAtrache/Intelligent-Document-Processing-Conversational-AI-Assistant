@@ -135,12 +135,14 @@ class Library:
         self._persist()
 
     def _persist(self) -> None:
-        self.catalog_path.write_text(
+        pending = self.catalog_path.with_suffix(".json.tmp")
+        pending.write_text(
             json.dumps(self.catalog, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
         if self.store is not None:
             self.store.save_local(str(self.index_dir))
+        pending.replace(self.catalog_path)
 
 
 def _chunks(doc_id: str, filename: str, pages: list[Page]) -> list[Document]:
