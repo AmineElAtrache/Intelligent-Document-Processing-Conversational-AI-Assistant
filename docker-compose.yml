@@ -1,0 +1,59 @@
+# CPU only. This file does not request a GPU.
+# Ollama is not a service here; the API calls it only if you point OLLAMA_BASE_URL at one.
+
+name: idp-assistant
+
+services:
+  api:
+    build:
+      context: ./api
+    image: idp-assistant-api
+    ports:
+      - "8000:8000"
+      - "8080:80"
+    environment:
+      DATA_DIR: /data
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3.2}
+      FLAGS_use_mkldnn: "0"
+    volumes:
+      - idp-data:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: ./ui
+    image: idp-assistant-ui
+    # Share the API network namespace. nginx proxies to 127.0.0.1:8000, so the
+    # page does not depend on bridge forwarding between containers.
+    network_mode: service:api
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+    restart: unless-stopped
+
+volumes:
+  idp-data:

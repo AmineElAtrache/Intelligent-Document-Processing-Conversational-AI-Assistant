@@ -1,0 +1,21 @@
+NORTHWIND STUDIO
+Invoice
+
+Invoice number: INV-2026-1142
+Invoice date: 12 March 2026
+Due date: 11 April 2026
+
+Bill to: Amal Benyoussef
+Atlas Archive
+14 Rue des Consuls
+Casablanca
+
+Description: Archival digitization of 42 ledger volumes
+Quantity: 1
+Unit price: 3,800.00 MAD
+Tax: 480.50 MAD
+Total due: 4,280.50 MAD
+
+Payment reference: NW-ATLAS-1142
+Notes: Deliverable includes searchable text and page images.
+Prepared by: Sara El Fassi
