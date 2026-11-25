@@ -56,7 +56,7 @@ class ChatRequest(BaseModel):
 
 def get_library() -> Library:
     if _LIBRARY is None:
-        raise RuntimeError("Library is not ready")
+        raise HTTPException(status_code=503, detail="Library is not ready")
     return _LIBRARY
 
 
