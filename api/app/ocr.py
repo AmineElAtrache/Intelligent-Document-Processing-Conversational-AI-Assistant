@@ -9,6 +9,8 @@ from pathlib import Path
 
 from PIL import Image
 
+from app.config import MAX_PAGES
+
 _ENGINE = None
 _LOCK = threading.Lock()
 
@@ -126,8 +128,8 @@ def ocr_file(path: Path) -> list[str]:
     pages: list[str] = []
     with Image.open(path) as image:
         frames = getattr(image, "n_frames", 1)
-        if frames > 30:
-            raise RuntimeError("Image has too many frames (max 30)")
+        if frames > MAX_PAGES:
+            raise ValueError(f"Image has too many frames (max {MAX_PAGES})")
         for index in range(frames):
             image.seek(index)
             pages.append(ocr_pil(image.copy()))
