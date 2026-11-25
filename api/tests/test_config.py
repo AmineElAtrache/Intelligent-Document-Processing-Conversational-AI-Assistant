@@ -3,10 +3,15 @@ import os
 import unittest
 from unittest.mock import patch
 
-from app.config import default_provider, ollama_base_url, openai_api_key
+from app.config import default_provider, ollama_base_url, openai_api_key, openai_model, ollama_model
 
 
 class ConfigTests(unittest.TestCase):
+    def test_blank_models_use_defaults(self):
+        with patch.dict(os.environ, {"OPENAI_MODEL": " ", "OLLAMA_MODEL": " "}):
+            self.assertEqual(openai_model(), "gpt-4o-mini")
+            self.assertEqual(ollama_model(), "llama3.2")
+
     def test_ollama_trailing_slash(self):
         with patch.dict(os.environ, {"OLLAMA_BASE_URL": " http://localhost:11434/ "}):
             self.assertEqual(ollama_base_url(), "http://localhost:11434")
