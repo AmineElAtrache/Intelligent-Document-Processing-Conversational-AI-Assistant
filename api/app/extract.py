@@ -85,6 +85,7 @@ def _rasterize(path: Path, page_numbers: list[int]):
                 dpi=200,
                 first_page=number,
                 last_page=number,
+                timeout=60,
             )
         except Exception as exc:
             raise RuntimeError(
