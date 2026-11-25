@@ -61,6 +61,8 @@ def _history(session_id: str) -> list[dict[str, str]]:
 
 def _remember(session_id: str, question: str, reply: str) -> None:
     with _SESSION_LOCK:
+        if session_id not in _SESSIONS and len(_SESSIONS) >= 1024:
+            del _SESSIONS[next(iter(_SESSIONS))]
         turns = _SESSIONS.setdefault(session_id, [])
         turns.append({"role": "user", "content": question})
         turns.append({"role": "assistant", "content": reply})
