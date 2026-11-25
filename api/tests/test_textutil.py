@@ -5,6 +5,9 @@ from app.textutil import raw_tokens, tokens
 
 
 class TokenTests(unittest.TestCase):
+    def test_amount_tokens(self):
+        self.assertEqual(tokens("4,280.50 MAD"), ["280", "50", "mad"])
+
     def test_filename_tokens(self):
         self.assertEqual(tokens("northwind-invoice_2026.txt"), ["northwind", "invoice", "2026", "txt"])
 
