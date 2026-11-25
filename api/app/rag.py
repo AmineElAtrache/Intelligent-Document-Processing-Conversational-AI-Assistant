@@ -113,6 +113,8 @@ def _extractive(question: str, hits) -> str:
             if score > 0:
                 ranked.append((score, doc_id, sentence))
     ranked.sort(key=lambda item: item[0], reverse=True)
+    if not ranked:
+        return "I cannot find that in the indexed documents."
     winning_doc = ranked[0][1]
     chosen: list[str] = []
     for _score, doc_id, sentence in ranked:
