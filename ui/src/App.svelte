@@ -83,6 +83,7 @@
       error = err.message;
     } finally {
       busy = false;
+      if (error && !draft) draft = message;
     }
   }
 
