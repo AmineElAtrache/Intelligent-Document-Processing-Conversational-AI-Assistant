@@ -11,5 +11,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m unittest tests.test_config tests.test_textutil
+      - run: python -m unittest tests.test_config tests.test_textutil tests.test_classify tests.test_smoke_check
         working-directory: api
