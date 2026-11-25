@@ -8,8 +8,13 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   frontend:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -24,6 +29,7 @@ jobs:
       - run: npm ci
       - run: npm run build
   python-syntax:
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
