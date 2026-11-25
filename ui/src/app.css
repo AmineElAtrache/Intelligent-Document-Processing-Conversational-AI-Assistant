@@ -142,7 +142,8 @@ select { padding: 8px 10px; }
   background: var(--green-soft);
 }
 
-.doc-list strong { display: block; }
+.doc-list strong { display: block; overflow-wrap: anywhere; }
+.bubble, .citations, .field { overflow-wrap: anywhere; min-width: 0; }
 
 .stamp {
   display: inline-block;
