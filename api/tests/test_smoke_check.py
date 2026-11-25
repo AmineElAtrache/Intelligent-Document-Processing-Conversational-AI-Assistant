@@ -11,6 +11,11 @@ spec.loader.exec_module(smoke)
 
 
 class SmokeTests(unittest.TestCase):
+    def test_retry_invalid_json(self):
+        ready = b'{"status":"ok","documents":1}'
+        with patch.object(smoke, "fetch", side_effect=[(200, b"not-json"), (200, ready)]), patch.object(smoke.time, "sleep"):
+            self.assertEqual(smoke.wait_health("http://test")["status"], "ok")
+
     def test_health_failure_reports_last_error(self):
         with patch.object(smoke, "fetch", side_effect=RuntimeError("unreachable")), patch.object(smoke.time, "sleep"), self.assertRaisesRegex(SystemExit, "unreachable"):
             smoke.wait_health("http://test")
