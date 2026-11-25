@@ -64,6 +64,10 @@
   async function ask(text = draft) {
     const message = text.trim();
     if (!message || busy) return;
+    if (message.length > 4000) {
+      error = "Questions must be 4,000 characters or fewer.";
+      return;
+    }
     draft = "";
     messages = [...messages, { role: "user", text: message }];
     busy = true;
