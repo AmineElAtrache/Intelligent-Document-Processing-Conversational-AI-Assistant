@@ -147,7 +147,7 @@
           aria-label="Upload a document"
         />
       </label>
-      <p class="muted">{uploading ? "Reading the file…" : "PDF, image, scan, docx, or txt. Up to 20 MB."}</p>
+      <p class="muted" role="status">{uploading ? "Reading the file…" : "PDF, image, scan, docx, or txt. Up to 20 MB."}</p>
       <ul class="doc-list">
         {#each documents as doc (doc.id)}
           <li>
