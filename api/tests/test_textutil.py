@@ -5,6 +5,9 @@ from app.textutil import raw_tokens, tokens
 
 
 class TokenTests(unittest.TestCase):
+    def test_filename_tokens(self):
+        self.assertEqual(tokens("northwind-invoice_2026.txt"), ["northwind", "invoice", "2026", "txt"])
+
     def test_case_and_punctuation(self):
         self.assertEqual(raw_tokens("Invoice: TOTAL 42!"), ["invoice", "total", "42"])
 
