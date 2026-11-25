@@ -9,7 +9,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from app import __version__
 from app.config import (
@@ -45,6 +45,13 @@ class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=4000)
     provider: str = Field(default="mock", pattern="^(mock|ollama|openai)$")
     session_id: str = Field(default="default", pattern=r"^[A-Za-z0-9_-]{1,80}$")
+
+    @field_validator("message")
+    @classmethod
+    def nonblank_message(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("Message must contain non-whitespace text")
+        return value.strip()
 
 
 def get_library() -> Library:
@@ -150,7 +157,7 @@ async def upload_document(file: UploadFile = File(...)) -> dict:
             status_code=400,
             detail="Unsupported file. Use PDF, PNG, JPEG, TIFF, BMP, WEBP, DOCX, or TXT.",
         )
-    payload = await file.read()
+    payload = await file.read(MAX_UPLOAD_BYTES + 1)
     if not payload:
         raise HTTPException(status_code=400, detail="That file is empty")
     if len(payload) > MAX_UPLOAD_BYTES:
@@ -166,7 +173,7 @@ async def upload_document(file: UploadFile = File(...)) -> dict:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except Exception as exc:
         logger.exception("upload failed")
-        raise HTTPException(status_code=400, detail=f"Could not read that file: {exc}") from exc
+        raise HTTPException(status_code=400, detail="Could not read that file") from exc
     finally:
         temporary.unlink(missing_ok=True)
 
