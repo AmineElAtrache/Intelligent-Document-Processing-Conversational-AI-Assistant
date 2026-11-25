@@ -19,7 +19,7 @@ def fetch(url: str, payload: bytes | None = None, timeout: float = 20) -> tuple[
             return response.status, response.read()
     except urllib.error.HTTPError as exc:
         body = exc.read()
-        raise SystemExit(f"{url} returned {exc.code}: {body.decode()[:500]}") from exc
+        raise RuntimeError(f"{url} returned {exc.code}: {body.decode('utf-8', errors='replace')[:500]}") from exc
 
 
 def wait_health(base: str) -> dict:
