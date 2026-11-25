@@ -36,6 +36,7 @@ services:
       retries: 20
       start_period: 10s
     restart: unless-stopped
+    init: true
 
   ui:
     build:
@@ -54,6 +55,7 @@ services:
       retries: 20
       start_period: 5s
     restart: unless-stopped
+    init: true
 
 volumes:
   idp-data:
