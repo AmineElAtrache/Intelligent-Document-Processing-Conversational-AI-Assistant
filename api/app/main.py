@@ -151,7 +151,7 @@ def get_document(doc_id: str) -> dict:
 
 @app.post("/api/documents")
 async def upload_document(file: UploadFile = File(...)) -> dict:
-    filename = Path(file.filename or "").name
+    filename = Path((file.filename or "").replace("\\", "/")).name
     if not filename or filename.startswith("."):
         raise HTTPException(status_code=400, detail="Upload needs a filename")
     suffix = Path(filename).suffix.lower()
