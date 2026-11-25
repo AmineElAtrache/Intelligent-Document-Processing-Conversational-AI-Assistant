@@ -108,6 +108,8 @@ class Library:
         return record
 
     def search(self, query: str, k: int = 4) -> list[tuple[Document, float]]:
+        if k <= 0:
+            raise ValueError("Retrieval count must be positive")
         with self._lock:
             if self.store is None:
                 return []
