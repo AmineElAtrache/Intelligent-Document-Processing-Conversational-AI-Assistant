@@ -160,7 +160,10 @@ async def upload_document(file: UploadFile = File(...)) -> dict:
             status_code=400,
             detail="Unsupported file. Use PDF, PNG, JPEG, TIFF, BMP, WEBP, DOCX, or TXT.",
         )
-    payload = await file.read(MAX_UPLOAD_BYTES + 1)
+    try:
+        payload = await file.read(MAX_UPLOAD_BYTES + 1)
+    finally:
+        await file.close()
     if not payload:
         raise HTTPException(status_code=400, detail="That file is empty")
     if len(payload) > MAX_UPLOAD_BYTES:
