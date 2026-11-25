@@ -122,7 +122,7 @@
     </div>
     <label class="provider">
       <span>Answer with</span>
-      <select bind:value={provider} aria-label="Answer with">
+      <select bind:value={provider} aria-label="Answer with" disabled={busy}>
         <option value="mock">Mock, on this machine</option>
         <option value="ollama">Ollama, if it is running</option>
         <option value="openai">OpenAI, if a key is set</option>
