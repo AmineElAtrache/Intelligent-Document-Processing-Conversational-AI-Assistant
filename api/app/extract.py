@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -38,7 +37,7 @@ def extract_file(path: Path) -> list[Page]:
 
 
 def _read_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8", errors="replace").replace("\x00", "")
+    return path.read_text(encoding="utf-8-sig", errors="replace").replace("\x00", "")
 
 
 def _read_docx(path: Path) -> str:
