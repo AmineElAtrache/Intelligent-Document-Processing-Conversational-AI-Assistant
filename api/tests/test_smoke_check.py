@@ -11,6 +11,10 @@ spec.loader.exec_module(smoke)
 
 
 class SmokeTests(unittest.TestCase):
+    def test_health_failure_reports_last_error(self):
+        with patch.object(smoke, "fetch", side_effect=RuntimeError("unreachable")), patch.object(smoke.time, "sleep"), self.assertRaisesRegex(SystemExit, "unreachable"):
+            smoke.wait_health("http://test")
+
     def test_retry_temporary_error(self):
         ready = json.dumps({"status": "ok", "documents": 2}).encode()
         with patch.object(smoke, "fetch", side_effect=[RuntimeError("503"), (200, ready)]), patch.object(smoke.time, "sleep"):
