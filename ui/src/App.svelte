@@ -87,7 +87,7 @@
   }
 
   function onKey(event) {
-    if (event.key === "Enter" && !event.shiftKey) {
+    if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
       event.preventDefault();
       ask();
     }
@@ -153,6 +153,7 @@
             <button
               type="button"
               class:active={doc.id === selectedId}
+              aria-pressed={doc.id === selectedId}
               onclick={() => (selectedId = doc.id)}
             >
               <strong>{doc.filename}</strong>
@@ -208,7 +209,7 @@
           <button type="button" onclick={() => ask(prompt)} disabled={busy}>{prompt}</button>
         {/each}
       </div>
-      <div class="log" aria-live="polite">
+      <div class="log" role="log" aria-label="Conversation" aria-live="polite" aria-busy={busy}>
         {#if messages.length === 0}
           <p class="muted">Ask about the seeded Northwind invoice. Citations name the document, page, and chunk.</p>
         {/if}
@@ -236,6 +237,7 @@
             onkeydown={onKey}
             placeholder="Ask about a date, amount, or name"
             aria-label="Question"
+            maxlength="4000"
           ></textarea>
         </label>
         <button class="send" type="submit" disabled={busy || !draft.trim()}>
