@@ -4,6 +4,10 @@ from app.classify import classify_and_extract
 
 
 class ClassificationEdgeTests(unittest.TestCase):
+    def test_dates_deduplicate_in_order(self):
+        result = classify_and_extract("2026-01-02\n2026-01-01\n2026-01-02")
+        self.assertEqual(result["dates"], ["2026-01-02", "2026-01-01"])
+
     def test_headings(self):
         for heading in ("INVOICE", "Receipt", "contract"):
             with self.subTest(heading=heading):
