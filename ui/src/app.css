@@ -219,7 +219,8 @@ select { padding: 8px 10px; }
 
 .composer { display: grid; gap: 8px; margin-top: 10px; }
 
-textarea { min-height: 76px; padding: 10px; resize: vertical; }
+textarea { width: 100%; min-height: 76px; padding: 10px; resize: vertical; }
+.panel { min-width: 0; }
 
 .send:disabled, .prompts button:disabled { opacity: 0.55; cursor: wait; }
 
